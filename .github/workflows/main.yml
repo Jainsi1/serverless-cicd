@@ -27,5 +27,5 @@ jobs:
         run: serverless deploy
         
       - name: testing
-        run: serverless invoke -f  ${{ secrets.FUNCTION_NAME }}
+        run: serverless invoke -f  lambda-test
          
