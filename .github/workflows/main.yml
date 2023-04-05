@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+       main
+jobs:
+  serverless:
+    name: serverless deployment
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        
+      - name: Install Serverless Framework
+        run: npm install -g serverless
+        
+      - name: Serverless AWS authentication
+        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1   
+        
+      - name: deployment
+        run: serverless deploy
+        
+      - name: testing
+        run: serverless invoke -f  ${{ secrets.FUNCTION_NAME }}
+         
