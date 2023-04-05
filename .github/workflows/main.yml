@@ -32,5 +32,8 @@ jobs:
       - name: deployment
         working-directory: my-service
         run: serverless deploy
+      - name: deployment
+        working-directory: my-service
+        run: serverless remove
         
 
