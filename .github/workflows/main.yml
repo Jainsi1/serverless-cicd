@@ -24,10 +24,10 @@ jobs:
           aws-region: us-east-1   
         
       - name: deployment
-        working-directory: myservice
+        working-directory: my-service
         run: serverless deploy
         
       - name: testing
-        working-directory: myservice
+        working-directory: my-service
         run: serverless invoke -f  lambda-test
          
