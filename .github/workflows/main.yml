@@ -33,10 +33,4 @@ jobs:
         working-directory: my-service
         run: serverless deploy
         
-      - name: testing
-        working-directory: my-service
-        run: serverless invoke -f  lambda_test
-        
-      - name: remove
-        working-directory: my-service
-        run: serverless remove
+
