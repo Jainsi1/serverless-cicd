@@ -29,5 +29,5 @@ jobs:
         
       - name: testing
         working-directory: my-service
-        run: serverless invoke -f  lambda-test
+        run: serverless invoke -f  lambda_test
          
