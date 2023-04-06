@@ -1,31 +1,38 @@
 import boto3
 import yaml
+client = boto3.client('iam')
+with open('data.yaml') as f:
+       data = yaml.load(f,Loader= yaml.FullLoader)
 
-def lambda_test(event, context):
-    client = boto3.client('iam')
-    with open('data.yaml') as f:
-           data = yaml.load(f,Loader= yaml.FullLoader)
+userlist = data['Users']
 
-    userlist = data['Users']
-    for users in userlist: 
-        print(users)     
+try:
+    
+  for users in userlist: 
         response = client.create_user(
         UserName=users
          )
         print(response)
+        
+except client.exceptions.EntityAlreadyExistsException:
+        print ("This name users are already created") 
+        
+grouplist = data['GroupAssignment']     
 
-    grouplist = data['GroupAssignment']     
-    for groups in grouplist:
-        print (groups)
+try:  
+    
+  for groups in grouplist:
         group = client.create_group(
         GroupName=groups
          )
         print (group)
-        for x in grouplist[groups]:
-
-            usergroup = client.add_user_to_group(
+except client.exceptions.EntityAlreadyExistsException:
+        print ("This name usergroups are already created") 
+        
+for groups in grouplist:
+    for x in grouplist[groups]:
+        usergroup = client.add_user_to_group(
             GroupName=groups,
             UserName=x
-            )      
-        
-            print (usergroup)
+            )       
+        print (usergroup)
